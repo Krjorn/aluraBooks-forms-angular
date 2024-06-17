@@ -19,3 +19,10 @@ Projeto focado na criação de formulários orientados a templates, onde foram e
 - Utilização de validadores
 - Criação de diretivas validadoras personalizadas
 - Consumo de API
+
+## Para rodar
+
+[Baixe o projeto](https://github.com/Krjorn/aluraBooks-forms-angular/archive/refs/heads/main.zip) e, no terminal, execute os seguintes comandos:
+
+- `npm i`
+- `npm run start`
