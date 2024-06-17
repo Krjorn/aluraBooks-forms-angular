@@ -1,5 +1,8 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { ConsultaCepService } from '../services/consulta-cep.service';
+import { ICep } from '../services/ICep';
 
 @Component({
   selector: 'app-cadastro',
@@ -8,12 +11,39 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CadastroComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private consultaCepService: ConsultaCepService
+  ) { }
 
   ngOnInit(): void {
   }
 
-  cadastrar(){
-      console.log('Formulário enviado');
+  consultaCep(e: FocusEvent, f: NgForm) {
+    const cep = (e.target as HTMLInputElement).value;
+
+    if(cep !== '') {
+      this.consultaCepService.getConsultaCep(cep).subscribe(res => {
+        this.populaEndereco(res, f);
+      });
+    }
+  }
+
+  populaEndereco(dados: ICep, f: NgForm) {
+    f.form.patchValue({
+      endereco: dados.logradouro,
+      complemento: dados.complemento,
+      bairro: dados.bairro,
+      cidade: dados.localidade,
+      estado: dados.uf
+    });
+  }
+
+  cadastrar(form: NgForm){
+      if(form.valid) {
+        this.router.navigate(['/sucesso']);
+      } else {
+        alert('Formulário inválido');
+      }
   }
 }
